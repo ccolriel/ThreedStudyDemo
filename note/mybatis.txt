@@ -1,0 +1,5 @@
+mybatis入门：
+1.导入jar包
+2.入门内容
+	每个mybatis应用都是一个SqlsessionFactory实例为中心的。SqlSessionFactory的实例可以通过SqlSessionFactoryBuilder来获得，而SqlSessionFactoryBuilder则可以从
+XML配置文件或者预先定制的Configuration的实例构建出SqlSessionFactory的实例。
