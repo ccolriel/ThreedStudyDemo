@@ -46,3 +46,38 @@ XML配置文件或者预先定制的Configuration的实例构建出SqlSessionFac
         		  <package name="com/cy/mybatis/mapper"/> 来替换，扫包来映射无论使用xml还是类映射都可以，
         		  很重要建议配置方式不要混用，Mapper映射错误导致代码报错
 		
+		
+		
+		二、XML映射配置文件
+			1.properties 属性
+			2.settings 设置 : 这是 MyBatis 中极为重要的调整设置，它们会改变 MyBatis 的运行时行为。下表描述了设置中各项的意图、默认值等。
+			3.类型别名：typeAliase:
+			    类型别名是为 Java 类型设置一个短的名字。它只和 XML 配置有关，存在的意义仅在于用来减少类完全限定名的冗余。例如:
+				<typeAliases>
+				  <typeAlias alias="Author" type="domain.blog.Author"/>
+				  <typeAlias alias="Blog" type="domain.blog.Blog"/>
+				  <typeAlias alias="Comment" type="domain.blog.Comment"/>
+				  <typeAlias alias="Post" type="domain.blog.Post"/>
+				  <typeAlias alias="Section" type="domain.blog.Section"/>
+				  <typeAlias alias="Tag" type="domain.blog.Tag"/>
+			   </typeAliases>
+			当这样配置时，Blog可以用在任何使用domain.blog.Blog的地方。
+			也可以指定一个包名，MyBatis 会在包名下面搜索需要的 Java Bean，比如:
+			<typeAliases>
+			  <package name="domain.blog"/>
+			</typeAliases>
+			每一个在包 domain.blog 中的 Java Bean，在没有注解的情况下，会使用 Bean 的首字母小写的非限定类名来作为它的别名。 比如 domain.blog.Author 的别名为 author；若有注解，则别名为其注解值。看下面的例子：
+
+			@Alias("author")
+			public class Author {
+			    ...
+			}
+			
+			4.typeHandlers 类型处理器:
+			无论是 MyBatis 在预处理语句（PreparedStatement）中设置一个参数时，还是从结果集中取出一个值时， 都会用类型处理器将获取的值以合适的方式转换成 Java 类型。下表描述了一些默认的类型处理器。
+			提示 从 3.4.5 开始，MyBatis 默认支持 JSR-310(日期和时间 API) 。
+			你可以重写类型处理器或创建你自己的类型处理器来处理不支持的或非标准的类型。 
+			具体做法为：实现 org.apache.ibatis.type.TypeHandler 接口， 或继承一个很便利的类 org.apache.ibatis.type.BaseTypeHandler.
+			
+			
+	三、Mapper映射文件
