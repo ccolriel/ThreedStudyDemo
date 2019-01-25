@@ -8,5 +8,41 @@ XML配置文件或者预先定制的Configuration的实例构建出SqlSessionFac
 		b.写poMpper.xml文件，包含命名空间,sqlid，sql语句，入参映射以及，出参映射（实体类没有别名时要加实体类的全路径）
 	    c.写连接代码，创建SqlSessionFactory, SqlSession(sqlSessionFactory.openSession()创建),执行SqlSession操作。关闭SqlSession。
 	    
-
+	2.不通过xmli创建SqlSessionFactory
+		a.创建数据源对象
+		DataSource dataSource = BlogDataSourceFactory.getBlogDataSource();
+		b.创建事物工厂
+		TransactionFactory transactionFactory = new JdbcTransactionFactory();
+		c.创建环境对象
+		Environment environment = new Environment("development", transactionFactory, dataSource);
+		d.创建配置对象
+		Configuration configuration = new Configuration(environment);
+		e.添加映射
+		configuration.addMapper(BlogMapper.class);
+		f.创建sqlSessionFactory
+		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
+	
+	3.mybatis使用SqlSession执行sql的3钟方式重要(1种使用Mpper.xml，1种使用Mapper+Mpper接口类，一种使用Mpper接口类)  超重要
+		1.第一种Mapper.xml使用：
+		 Person person = session.selectOne("com.ccol.mybatis.mapper.PersonMapper.selectPerson", 101);  //命名空间+sqlId，入参映射
+		 这算使用的是session的自带方法，不注册Mapper类，这个命名空间+sqlId单纯用来找对应的sql语句，命名空间并不限定名字
+		
+		2.第二种Mapper.xml+Mapper类的使用:
+		SqlSession session = sqlSessionFactory.openSession();
+		PersonMapper personMapper = session.getMapper(PersonMapper.class);
+		Person person = personMapper.selectPerson(101);
+		
+		这种使用Mapper接口来执行sql, 命名空间必须限定为Mapper接口类的包路径， sqlId必须要和Mapper接口类定义的方法名一致 
+	    
+	    3.第三种只使用Mapper接口类，要配合注解使用
+	    public interface BlogMapper {
+  			@Select("SELECT * FROM blog WHERE id = #{id}")
+ 			 Blog selectBlog(int id);
+		}
+        
+        总结：前面两种mybatisconfimapper按照 <mapper resource="com/ccol/mybatis/demo01Mapper.xml"/> 用resource来映射配置文件及Mapper类
+        		  后面这种<mapper class="com.ccol.mybatis.mapper.PersonMapper"/> 用class来映射Mapper类
+        		  前面两种都可以用：
+        		  <package name="com/cy/mybatis/mapper"/> 来替换，扫包来映射无论使用xml还是类映射都可以，
+        		  很重要建议配置方式不要混用，Mapper映射错误导致代码报错
 		
