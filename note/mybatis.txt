@@ -3,3 +3,10 @@ mybatis入门：
 2.入门内容
 	每个mybatis应用都是一个SqlsessionFactory实例为中心的。SqlSessionFactory的实例可以通过SqlSessionFactoryBuilder来获得，而SqlSessionFactoryBuilder则可以从
 XML配置文件或者预先定制的Configuration的实例构建出SqlSessionFactory的实例。
+	1.通过xml创建SqlSessionFactory：
+		a.写mybatis配置文件，包含连接数据库的信息，事物，以及mappers
+		b.写poMpper.xml文件，包含命名空间,sqlid，sql语句，入参映射以及，出参映射（实体类没有别名时要加实体类的全路径）
+	    c.写连接代码，创建SqlSessionFactory, SqlSession(sqlSessionFactory.openSession()创建),执行SqlSession操作。关闭SqlSession。
+	    
+
+		

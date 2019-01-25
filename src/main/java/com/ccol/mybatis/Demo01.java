@@ -32,7 +32,7 @@ public class Demo01 {
 			SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 			
 			SqlSession session = sqlSessionFactory.openSession();
-			Person person = session.selectOne("com.ccol.mybatis.bean.Person.selectPerson", 101);
+			Person person = session.selectOne("com.ccol.mybatis.bean.Person.selectPerson", 101);  //命名空间+sqlId，入参映射
 			System.out.println(person);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
